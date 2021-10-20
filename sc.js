@@ -11,7 +11,8 @@ function validate(){
 
 		alert("Login Successful");
 		// window.location = "index.html"
-		return false;
+		return window.location.refresh();
+	
 
 	}else{
 		attemps --;
@@ -25,4 +26,8 @@ function validate(){
 		return false;
 
 	}
+}
+function refresh(){
+
+	window.location.href = window.location.href;
 }
