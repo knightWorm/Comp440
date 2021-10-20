@@ -1,3 +1,7 @@
+
+* {
+	text-align: center;
+}
 html {
-	background-color: lightblue;
+	background-color: #B0C4DE; /*LightSteelBlue*/
 }
