@@ -14,7 +14,7 @@ body {
 	margin: 0;
 	padding: 0;
 	background-size: cover;
-	background-image: url(/resources/backgroundimages/back20.jpeg); /*so far liked: 9, */
+	background-image: url(../resources/backgroundimages/back20.jpeg); /*so far liked: 9, */
 	background-repeat: no-repeat;
 	background-position: 50% 50%;
 	/*height: 6000px;
@@ -55,6 +55,6 @@ button:hover {
         padding: 10px 18px;  
         margin: 10px 5px;  
     }  
-    h1, h2, label, p {
+    h1, h2, h3, label, p {
     	color: white;
     }

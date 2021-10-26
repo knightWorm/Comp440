@@ -1,0 +1,6 @@
+{
+    "user": "sql-user",
+    "password": "sql-password",
+    "database": "sql-name",
+    "host": "sql-host"
+}
