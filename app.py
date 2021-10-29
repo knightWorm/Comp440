@@ -8,9 +8,16 @@ app = Flask(__name__, template_folder='website')
 @app.route('/index.html', methods = ['POST', 'GET'])
 def index():
     if (request.method == 'GET'):
-        if request.args.get('msg') == "error":
-            return render_template("index.html", error_msg="Wrong username or password")
-    return render_template("index.html")
+
+       return render_template("index.html")
+
+
+@app.route('/')
+@app.route('/CreateAccount.html', methods = ['POST', 'GET'])
+def newAcc():
+    if (request.method == 'GET'):
+
+        return render_template("CreateAccount.html")
 
 @app.route('/home.html', methods = ['POST', 'GET'])
 def home():

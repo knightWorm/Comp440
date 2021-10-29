@@ -31,6 +31,9 @@ function refresh(){
 
 	window.location.href = window.location.href;
 }
+function newAcc() {
+	return window.location.href="CreateAccount.html";
+}
 
 function checkUsername() {
 	var username = document.getElementById("createUsername").value;
