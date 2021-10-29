@@ -68,14 +68,8 @@ let result = document.querySelector('h3');
 //if passwords match say matching, else not matching
 //used in validAccount()
 function passwordMatch(){
-	var pass1 = document.getElementById("createPassword").value;
-	var pass2 = document.getElementById("confirmPassword").value;
 	result.innerText = createPassword.value == confirmPassword.value ? 'Password Matches' : 'Password Mismatch';
-
-	if(pass1.length == 0 || pass2.length == 0){
-		return false;
-	}
-	else if(result.innerText == 'Password Matches'){
+	if(result.innerText == 'Password Matches'){
 		return true;
 	}
 	else{
