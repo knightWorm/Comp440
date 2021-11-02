@@ -6,10 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Create your Comp 440: Project 1 Account</title>
     <meta name="description" content="Set up your Database account with a unique username and password. ">
-    <link href="/css/style.css" type="text/css" rel="stylesheet" >
-    <!--<script src="sc.js"></script>-->
+    <link href="../static/css/styles.css" type="text/css" rel="stylesheet" >
+    <script src="../static/sc.js"></script>
 </head>
-
 
 <body>
     
@@ -20,50 +19,19 @@
             <h1>Comp 440: Project 1</h1>
             <h2>Create your Database Account</h2>
             
-            <div class="name">
+            <p style=color:red>{{error_msg}}</p>
+            <form method="post" action="CreateAccount.html" autocomplete="off">
+                <input type="text" placeholder="First Name" name="fname" id="fname">
+                <input type="text" placeholder="Last Name" name="lname" id="lname">
+                <input type="text" placeholder="Enter Username" name="createUsername" id="createUsername">
+                <input type="text" placeholder="Email@something.com" name="createEmail" id="createEmail">
+                <input type="password" placeholder="Enter Password" name="createPassword" id="createPassword">
+                <input type="password" placeholder="Confirm Password" name="confirmPassword" id="confirmPassword">
+                <br/>
+                <button type="submit" class="button1">Create Account</button>
+            </form>
             
-                <form>
-                    <label>First Name : </label>
-                    <input type="text" placeholder="First Name" name="fname" id="fname">
-                    <label>Last Name : </label>
-                    <input type="text" placeholder="Last Name" name="lname" id="lname">
-                </form>
-            
-            </div>
 
-            <div class="userName">
-
-                <form>
-                    <label>Username : </label>
-                    <input type="text" placeholder="Enter Username" name="createUsername" id="createUsername">
-                </form>
-            
-            </div>
-
-            <div class="email">
-
-                <form>
-                    <label>Email : </label>
-                    <input type="text" placeholder="Email@something.com" name="createEmail" id="createEmail">
-                </form>
-            
-            </div>
-
-            <div class="password">
-
-                <form>
-                    <label>Password : </label>
-                    <input type="password" placeholder="Enter Password" name="createPassword" id="createPassword">
-                    <label>Confirm : </label>
-                    <input type="password" placeholder="Confirm Password" name="confirmPassword" id="confirmPassword">
-                    <h3>Password Check</h3>
-                </form>
-            
-            </div>
-
-            <script src="sc.js"></script>
-
-            <button type="button" class="button1" onclick="validateAccount()">Create Account</button>
 
             <a href="index.html">
                 <button type ="button" class="button2">Cancel</button>

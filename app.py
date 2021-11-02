@@ -12,14 +12,35 @@ def index():
             return render_template("index.html", error_msg="Wrong username or password")
     return render_template("index.html")
 
-@app.route('/CreateAccount.html')
-def newAcc():
+@app.route('/CreateAccount.html', methods = ['POST', 'GET'])
+def newAcc():        
+    if (request.method == 'POST'):
+        sql = db()
+        username = request.form.get('createUsername')
+        password = request.form.get('createPassword')
+        first = request.form.get('fname')
+        last = request.form.get('lname')
+        email = request.form.get('createEmail')
+
+        duplicates = sql.get_duplicates(username, email)
+        if duplicates == False:
+            sql.create_account(username, password, first, last, email)
+            sql.close()
+            return redirect('/index.html')
+        else:
+            sql.close()
+            return redirect('/CreateAccount.html?msg=dup')
+
+    elif (request.method == 'GET'):
+        if request.args.get('msg') == "dup":
+            return render_template("CreateAccount.html", error_msg="Username or email is already in use")
+
     return render_template("CreateAccount.html")
 
 @app.route('/home.html', methods = ['POST', 'GET'])
 def home():
-    sql = db()
     if (request.method == 'POST'):
+        sql = db()
         username = request.form.get('username')
         password = request.form.get('password')
         valid = sql.validate(username, password)
