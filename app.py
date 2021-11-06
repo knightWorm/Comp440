@@ -43,10 +43,15 @@ def home():
         sql = db()
         username = request.form.get('username')
         password = request.form.get('password')
-        valid = sql.validate(username, password)
-        sql.close()
-        if valid == True:
+        if username == None or password == None:
+            sql.reset()
+            sql.close()
             return render_template('home.html')
+        else:
+            valid = sql.validate(username, password)
+            sql.close()
+            if valid == True:
+                return render_template('home.html')
     
     return redirect('/index.html?msg=error')
 

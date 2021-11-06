@@ -38,6 +38,12 @@ class db:
         self.cursor.execute(query, values)
         self.cursor.fetchone()
         self.mydb.commit()
+    
+    def reset(self):
+        f = open('backend/resetDB.sql', 'r').read().split('\n')
+        for query in f:
+            self.cursor.execute(query)
+        self.mydb.commit()
 
     def get_users(self):
         query = "SELECT username FROM user;"
