@@ -20,17 +20,18 @@
 						<p style=color:red>{{error_msg}}</p>
 						<label>Username : </label> 
 						<br>
-						<input type="text" placeholder="Enter Username" name="username" id="username"> 
+						<input type="text" placeholder="Enter Username" name="username" id="username" required> 
 						<br> 
 						<label>Password : </label> 
 						<br>  
-						<input type="password" placeholder="Enter Password" name="password" id="password">
+						<input type="password" placeholder="Enter Password" name="password" id="password" required>
 						<br> 
 						<button id="submit" type="submit">Login</button>
 						<br> 
 						<input type="checkbox" checked="checked"> Remember me  
 						<br> 
 						<button type="button" class="cancelbtn" onclick="window.location.reload()"> Cancel</button>
+						<br>
 						<button type="button" class="NewAccountButton" onclick="newAcc()"> Create Account</button>
 					</form>
 					<p>Forgot <a href="#"> password? </a></p> 

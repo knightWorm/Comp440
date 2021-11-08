@@ -11,35 +11,25 @@
 </head>
 
 <body>
-    
-    <div class="container">
-    
-        <main>
-
-            <h1>Comp 440: Project 1</h1>
+    <main>
+        <h1>Comp 440: Project 1</h1>
+        <div class="container">
             <h2>Create your Database Account</h2>
-            
             <p style=color:red>{{error_msg}}</p>
-            <form method="post" action="CreateAccount.html" autocomplete="off">
-                <input type="text" placeholder="First Name" name="fname" id="fname">
-                <input type="text" placeholder="Last Name" name="lname" id="lname">
-                <input type="text" placeholder="Enter Username" name="createUsername" id="createUsername">
-                <input type="text" placeholder="Email@something.com" name="createEmail" id="createEmail">
-                <input type="password" placeholder="Enter Password" name="createPassword" id="createPassword">
-                <input type="password" placeholder="Confirm Password" name="confirmPassword" id="confirmPassword">
+            <form method="post" action="CreateAccount.html" autocomplete="off" required>
+                <input type="text" placeholder="First Name" name="fname" id="fname" required>
+                <input type="text" placeholder="Last Name" name="lname" id="lname" required>
+                <input type="text" placeholder="Enter Username" name="createUsername" id="createUsername" required>
+                <input type="text" placeholder="Email@something.com" name="createEmail" id="createEmail" required>
+                <input type="password" placeholder="Enter Password" name="createPassword" id="createPassword" required>
+                <input type="password" placeholder="Confirm Password" name="confirmPassword" id="confirmPassword" required>
                 <br/>
                 <button type="submit" class="button1">Create Account</button>
             </form>
-            
-
-
             <a href="index.html">
                 <button type ="button" class="button2">Cancel</button>
             </a>
-    
-        </main>
-    
-    </div>
-
+        </div>
+    </main>
 </body>
 </html>
