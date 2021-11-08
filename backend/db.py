@@ -44,12 +44,6 @@ class db:
         for query in f:
             self.cursor.execute(query)
         self.mydb.commit()
-
-    def get_users(self):
-        query = "SELECT username FROM user;"
-        self.cursor.execute(query)
-        users = self.cursor.fetchall()
-        return users
     
     def close(self):
         self.mydb.close()

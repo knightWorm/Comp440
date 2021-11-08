@@ -1,8 +1,10 @@
-from flask import Flask, render_template, redirect, request
-import sys
+from flask import Flask, render_template, redirect, request, session
+import sys, json
 sys.path.insert(0, "backend/")
 from db import db
+config = json.load(open('backend/private.json'))
 app = Flask(__name__, template_folder='website')
+app.config["SECRET_KEY"] = config['password']
 
 @app.route('/')
 @app.route('/index.html', methods = ['POST', 'GET'])
@@ -13,7 +15,7 @@ def index():
     return render_template("index.html")
 
 @app.route('/CreateAccount.html', methods = ['POST', 'GET'])
-def newAcc():        
+def newAcc():
     if (request.method == 'POST'):
         sql = db()
         username = request.form.get('createUsername')
@@ -39,19 +41,30 @@ def newAcc():
 
 @app.route('/home.html', methods = ['POST', 'GET'])
 def home():
-    if (request.method == 'POST'):
-        sql = db()
-        username = request.form.get('username')
-        password = request.form.get('password')
-        if username == None or password == None:
-            sql.reset()
-            sql.close()
-            return render_template('home.html')
-        else:
-            valid = sql.validate(username, password)
-            sql.close()
-            if valid == True:
+    username = request.form.get('username')
+    password = request.form.get('password')
+    reset = request.form.get('reset_DB')
+    signout = request.form.get('sign_out')
+    if 'username' in session and username == None and password == None:
+        if (request.method == 'POST'):
+            if reset == 'true':
+                sql = db()
+                sql.reset()
+                sql.close()
                 return render_template('home.html')
+            elif signout == 'true':
+                session.pop('username', None)
+                return redirect('/index.html')
+        else:
+            return render_template('home.html')
+        
+    elif (request.method == 'POST'):
+        sql = db()
+        valid = sql.validate(username, password)
+        sql.close()
+        if valid == True:
+            session['username'] = username
+            return render_template('home.html')
     
     return redirect('/index.html?msg=error')
 

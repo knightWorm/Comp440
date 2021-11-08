@@ -15,19 +15,17 @@
 			<h2>Welcome</h2>
 			<!-- <script type="text/javascript">alert("welcome to my page")</script> -->
 			<section id="login">
-				<div class="container">   
-            	
-				<h3>Nice you logged in!!</h3>
 				<div class="container">
+					<h3>Nice you logged in!!</h3>
 					<form method="post" action="home.html" autocomplete="off">
-						<br/>
-						<button id="submit" type="submit">Initialize Database</button>
+						<button id="submit" type="submit" name=reset_DB value="true">Initialize Database</button>
+						<br/><br/><br/>
+						<button class="cancelbtn" type="submit" name=sign_out value="true">Sign Out</button>
 						<br/>
 					</form>
 					<p>Forgot <a href="#"> password? </a></p> 
-        		</div>
-            	<a href="index.html"> Back to login </a>
-        		</div>
+					<a href="index.html"> Back to login </a>
+				</div>
 			</section>
 		</main>
 		<footer>
