@@ -5,3 +5,7 @@ CREATE TABLE user(username VARCHAR(100) PRIMARY KEY,password VARCHAR(100) NOT NU
 INSERT INTO user VALUES('ad@m', 'abc543', 'Adam', 'Back', 'adam@gmail.com');
 INSERT INTO user VALUES('jack', '123!!!', 'Jack', 'Black', 'jacks@gmail.com');
 INSERT INTO user VALUES('mark5', 'what@@@', 'Mark', 'Cuban', 'marks@gmail.com');
+INSERT INTO user VALUES('comp440', 'pass1234', 'Sid', 'Reeds', 'sid@gmail.com');
+INSERT INTO user VALUES('rocks', '123', 'Rock', 'Garret', 'rock@gmail.com');
+INSERT INTO user VALUES('sue', '123', 'Sue', 'Smith', 'sue@gmail.com');
+INSERT INTO user VALUES('s@lly', '123', 'Sally', 'Parker', 'sally@gmail.com');
