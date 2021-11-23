@@ -1,6 +1,6 @@
 {
     "user": "root",
-    "password": "NLacv89!@rtg",
+    "password": "root",
     "database": "website",
-    "host": "localhost"
+    "host": "127.0.0.1"
 }
