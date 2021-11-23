@@ -1,6 +1,6 @@
 {
-    "user": "sql-user",
-    "password": "sql-password",
-    "database": "sql-name",
-    "host": "sql-host"
+    "user": "root",
+    "password": "NLacv89!@rtg",
+    "database": "website",
+    "host": "localhost"
 }
