@@ -43,7 +43,7 @@ def newAcc():
 
     return render_template("CreateAccount.html")
 
-@app.route('/blog.html', methods=['POST','Get'])
+@app.route('/blog.html', methods=['POST','GET'])
 def blog():
     username = request.form.get('username')
     password = request.form.get('password')
@@ -57,7 +57,7 @@ def blog():
                 sql.close()
                 return render_template('blog.html')
             elif signout == 'true':
-                session.pop('username', None)
+                # session.pop('username', None)
                 return redirect('/index.html')
         else:
             return render_template('blog.html')

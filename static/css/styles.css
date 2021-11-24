@@ -30,6 +30,8 @@ button {
 }
 nav a {
         color: rgb(141, 93, 3);
+        text-decoration: none;
+        padding: 10px;
 }
 .container {   
         padding: 15px;
@@ -98,4 +100,8 @@ select{
         display: inline-block;   
         border: 2px solid green;   
         box-sizing: border-box; 
+}
+#login a {
+        text-decoration: none;
+        color: rgb(141, 93, 3);
 }
