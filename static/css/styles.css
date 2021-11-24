@@ -4,7 +4,7 @@
 	text-align: center;
 }
 html {
-	height: 100%;
+	height: auto;
 	margin:0;
 	padding:0;
         color: white;
@@ -28,7 +28,7 @@ button {
         border: none;   
         cursor: pointer;   
 }
-a {
+nav a {
         color: rgb(141, 93, 3);
 }
 .container {   
