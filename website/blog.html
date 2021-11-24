@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project 2 | Blogs</title>
+    <link href="../static/css/styles.css" type="text/css" rel="stylesheet" >
+    <script src ="../static/sc.js"></script>
+</head>
+<body>
+    <header>
+        <h1>Comp 440: Project 1</h1>
+        <h2>Welcome</h2>
+        <!-- <hr size="8" width="80%" color="black"> -->
+        <section id ="navbar">
+            <div class ="navigation">
+                <nav>
+                    <a href="#"></a>
+                    <a href="#"></a>
+                </nav>
+
+            </div>
+        </section>
+    </header>
+    <main>
+        <!-- <script type="text/javascript">alert("welcome to my page")</script> -->
+        <section id="blogComment">
+            <div class="blogForm">
+                <h2>Blogs and Comments</h2>
+                <form method="post" action="blog.html" autocomplete="off">
+                    <p style="color:red">{{error_msg}}</p>
+                    <label>Create Blog : </label> 
+                    <br>
+                    <input type="text" placeholder="Enter Subject" name="subject" id="subject" required>
+                    <textarea name="blog" id="blog" rows="4" cols="20" placeholder="Write Blog" required>
+                    </textarea>
+                    <input type="text" placeholder="Enter Tag" name="tag" id="tag" required> 
+                    <br> 
+                    <button type="button" class="cancelblogbtn" onclick="window.location.reload()"> Cancel</button>
+                    <button type="submit" class="submitblogbtn">Submit</button>
+                    <br>
+                    <label>Select Blog : </label> 
+                    <br>
+                    <select name="searchblogs" id="searchblogs">
+                        <option value=""></option>
+                        <option value=""></option>
+                        <option value=""></option>
+                    </select>
+                    <br> 
+                    <label>Blog : </label> 
+                    <br> 
+                    <textarea placeholder="Search Blog" name="displayblog" id="displayblog" rows="4" cols="20" required>
+                    </textarea>
+                    <br> 
+                    <label>Comment : </label> 
+                    <br>
+                    <input type="text" placeholder="Enter Comment" name="comment" id="comment" required>
+                    <br>
+                    <button type="button" class="cancelblogbtn" onclick="window.location.reload()"> Cancel</button>
+                    <button type="submit" class="submitblogbtn">Submit</button>
+                    <br> 
+                </form> 
+            </div>
+        </section>
+    </main>
+    <footer>
+        <!-- <hr size="8" width="80%" color="black"> -->
+        <p>&copy; Copyrights 2021 by Comp440Team#12</p>
+    </footer>
+</body>
+</html>

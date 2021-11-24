@@ -5,7 +5,7 @@ class db:
         config = json.load(open('backend/private.json'))
         self.mydb = mysql.connector.connect(
             host = config['host'],
-            port = '8889',
+            port = '3006',
             user = config['user'],
             passwd = config['password'],
             database = config['database']
