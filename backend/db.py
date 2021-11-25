@@ -5,6 +5,7 @@ class db:
         config = json.load(open('backend/private.json'))
         self.mydb = mysql.connector.connect(
             host = config['host'],
+            port = config['port'],
             user = config['user'],
             passwd = config['password'],
             database = config['database']
@@ -64,7 +65,12 @@ class db:
         query = "SELECT subject, created_by, description FROM blogs where blogid=%s;"
         self.cursor.execute(query, (blogid,))
         blg = self.cursor.fetchone()
-        post = "{} from {} \n\n\t {}".format(blg[0], blg[1], blg[2])
+        query = "SELECT tag FROM blogstags where blogid=%s;"
+        self.cursor.execute(query, (blogid,))
+        tags = ""
+        for tag in self.cursor.fetchall():
+            tags += tag[0] + ", "
+        post = "{} from {} \n\n\t {} \n\n Tags: {}".format(blg[0], blg[1], blg[2], tags[:-2])
         return post
     
     def reset(self):
