@@ -16,8 +16,8 @@
         <section id ="navbar">
             <div class ="navigation">
                 <nav>
-                    <a href="home.html">Home</a>
-                    <a href="backendOperations.html">TempPage</a>
+                    <a href="home.html">Initialize</a>
+                    <a href="backendOperations.html">Operations</a>
                 </nav>
 
             </div>
@@ -32,17 +32,20 @@
                     <p style="color:red">{{error_msg}}</p>
                     <label>Create Blog : </label> 
                     <br>
-                    <input type="text" placeholder="Enter Subject" name="subject" id="subject" style="margin-top: 0;margin-bottom: 0; ">
-                    <textarea name="blog" id="blog" rows="4"  placeholder="Write Blog" required style="margin-top: 0;margin-bottom: 0;text-align: center; ">
-                    </textarea>
-                    <input type="text" placeholder="Enter Tag" name="tag" id="tag" style="margin-top: -4px;margin-bottom: 0; ">
+                    <br>
+                    <input type="text" placeholder="Enter a subject" name="subject" id="subject" style="margin-top: 0;margin-bottom: 0;text-align: left; ">
+                    <textarea name="blog" id="blog" rows="4" cols="20"  placeholder="Write a blog" required style="margin-top: 0;margin-bottom: 0;text-align: left; "></textarea>
+                    <input type="text" placeholder="Enter tags: blockchain, bitcoin, decentralized" name="tag" id="tag" style="margin-top: -4px;margin-bottom: 0;text-align: left; ">
                     <br> 
                     <button type="button" class="cancelblogbtn" onclick="window.location.reload()"> Cancel</button>
                     <button type="submit" class="submitblogbtn">Submit</button>
                     <br>
                     <label>Select Blog : </label> 
                     <br>
+                    <input type="text" class="searchbar" placeholder="Search blogs" name="search" id="search" style="width: 200px;">
                     <select name="searchblogs" id="searchblogs">
+                        <option value=""></option>
+                        <option value=""></option>
                         <option value=""></option>
                         <option value=""></option>
                         <option value=""></option>
@@ -50,8 +53,10 @@
                     <br> 
                     <label>Blog : </label> 
                     <br> 
-                    <textarea placeholder="Search Blog" name="displayblog" id="displayblog" rows="4" cols="20" required>
-                    </textarea>
+                    <textarea name="displayblog" id="displayblog" rows="4" cols="20" placeholder="Select a blog to display" readonly></textarea>
+                    <br>
+                    <button type="button" class="ratingbtn"><img src="/static/resources/icons/outline_favorite_white_24dp.png"></button>
+                    <button type="button" class="ratingbtn"><img src="/static/resources/icons/outline_thumb_down_white_24dp.png"></button>
                     <br> 
                     <label>Comment : </label> 
                     <br>
@@ -59,7 +64,9 @@
                     <br>
                     <button type="button" class="cancelblogbtn" onclick="window.location.reload()"> Cancel</button>
                     <button type="submit" class="submitblogbtn">Submit</button>
-                    <button class="cancelbtn" type="submit" name="sign_out" value="true">Sign Out</button>
+                    <br>
+                    <br>
+                    <button type="submit" class="cancelbtn" name="sign_out" value="true">Sign Out</button>
                     <br> 
                 </form> 
             </div>

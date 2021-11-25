@@ -93,6 +93,14 @@ button:hover {
         padding: 10px 30px;  
         margin: 10px 5px;  
 } 
+.ratingbtn {
+        background-color: green;   
+        width: auto;   
+        padding: 10px 10px;  
+        margin: 5px 5px;  
+        margin-left: 250px;
+        margin-right: -250px;
+} 
 select{
         width: 30%;   
         margin: 8px 0;  
@@ -101,6 +109,14 @@ select{
         border: 2px solid green;   
         box-sizing: border-box; 
 }
+.searchbar {    
+        height: 32px;
+        margin: 8px 0;  
+        display: inline-block;   
+        border: 2px solid green;   
+        box-sizing: border-box;   
+        text-align: left;
+}  
 #login a {
         text-decoration: none;
         color: rgb(141, 93, 3);
