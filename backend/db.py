@@ -52,6 +52,21 @@ class db:
             self.cursor.execute(query, values)
         self.mydb.commit()
     
+    def get_options(self):
+        query = "SELECT blogid, subject FROM blogs;"
+        self.cursor.execute(query)
+        options = ""
+        for (blogid, subject) in self.cursor:
+            options += "<option value='{}'>{}</option>".format(blogid, subject)
+        return options
+
+    def get_blog(self, blogid):
+        query = "SELECT subject, created_by, description FROM blogs where blogid=%s;"
+        self.cursor.execute(query, (blogid,))
+        blg = self.cursor.fetchone()
+        post = "{} from {} \n\n\t {}".format(blg[0], blg[1], blg[2])
+        return post
+    
     def reset(self):
         f = open('backend/ProjDB.sql', 'r').read()
         self.cursor.execute(f, multi=True)

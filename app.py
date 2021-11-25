@@ -1,4 +1,3 @@
-import re
 from flask import Flask, render_template, redirect, request, session
 import sys, json
 sys.path.insert(0, "backend/")
@@ -56,22 +55,28 @@ def blog():
     description = request.form.get('blog')
     tags = request.form.get('tag')
 
+    # Selecting blog
+    select = request.args.get('searchblogs')
+
+    sql = db()
     # If user is signed in
     if 'username' in session and username == None and password == None:
         if (request.method == 'POST'):
+            # Create a blog
             if blog == 'true':
-                sql = db()
                 sql.create_blog(subject, description, tags, session['username'])
                 sql.close()
+            # Signout
             elif signout == 'true':
                 session.pop('username', None)
                 return redirect('/')
-        
-        return render_template('blog.html')
+        elif (request.method == 'GET'):
+            if select:
+                return render_template('blog.html', options=sql.get_options(), blog=sql.get_blog(select))
+        return render_template('blog.html', options=sql.get_options())
 
     # If user is not signed in
     elif (request.method == 'POST'):
-        sql = db()
         valid = sql.validate(username, password)
         sql.close()
         if valid == True:
