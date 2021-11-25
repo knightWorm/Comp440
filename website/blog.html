@@ -38,7 +38,7 @@
                     <input type="text" placeholder="Enter tags: blockchain, bitcoin, decentralized" name="tag" id="tag" style="margin-top: -4px;margin-bottom: 0;text-align: left; ">
                     <br> 
                     <button type="button" class="cancelblogbtn" onclick="window.location.reload()"> Cancel</button>
-                    <button type="submit" class="submitblogbtn">Submit</button>
+                    <button type="submit" name="create_blog" value="true" class="submitblogbtn">Submit</button>
                     <br>
                     <label>Select Blog : </label> 
                     <br>
@@ -66,9 +66,10 @@
                     <button type="submit" class="submitblogbtn">Submit</button>
                     <br>
                     <br>
+                </form>
+                <form method="post" action="blog.html">
                     <button type="submit" class="cancelbtn" name="sign_out" value="true">Sign Out</button>
-                    <br> 
-                </form> 
+                </form>
             </div>
         </section>
     </main>

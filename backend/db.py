@@ -39,6 +39,19 @@ class db:
         self.cursor.fetchone()
         self.mydb.commit()
     
+    def create_blog(self, subject: str, description: str, tags:str, created_by:str):
+        # Insert blog
+        query = "INSERT INTO blogs VALUES(NULL, %s, %s, CURDATE(), %s);"
+        values = (subject, description, created_by)
+        self.cursor.execute(query, values)
+        # Insert tags
+        tags = [tag.strip() for tag in tags.split(',')]
+        for tag in tags:
+            query = "INSERT INTO blogstags VALUES((SELECT MAX(blogid) FROM blogs), %s);"
+            values = (tag,)
+            self.cursor.execute(query, values)
+        self.mydb.commit()
+    
     def reset(self):
         f = open('backend/ProjDB.sql', 'r').read()
         self.cursor.execute(f, multi=True)

@@ -15,8 +15,8 @@ sql.close()
 def index():
     if (request.method == 'GET'):
         if request.args.get('msg') == "error":
-            return render_template("index.html", error_msg="Wrong username or password")
-    return render_template("index.html")
+            return render_template('/index.html', error_msg="Wrong username or password")
+    return render_template('/index.html')
 
 @app.route('/CreateAccount.html', methods = ['POST', 'GET'])
 def newAcc():
@@ -41,27 +41,35 @@ def newAcc():
         if request.args.get('msg') == "dup":
             return render_template("CreateAccount.html", error_msg="Username or email is already in use")
 
-    return render_template("CreateAccount.html")
+    return render_template('CreateAccount.html')
 
 @app.route('/blog.html', methods=['POST','GET'])
 def blog():
+    # Signing in/out
     username = request.form.get('username')
     password = request.form.get('password')
-    reset = request.form.get('reset_DB')
     signout = request.form.get('sign_out')
+
+    # Creating a new blog
+    blog = request.form.get('create_blog')
+    subject = request.form.get('subject')
+    description = request.form.get('blog')
+    tags = request.form.get('tag')
+
+    # If user is signed in
     if 'username' in session and username == None and password == None:
         if (request.method == 'POST'):
-            if reset == 'true':
+            if blog == 'true':
                 sql = db()
-                sql.reset()
+                sql.create_blog(subject, description, tags, session['username'])
                 sql.close()
-                return render_template('blog.html')
             elif signout == 'true':
-                # session.pop('username', None)
-                return redirect('/index.html')
-        else:
-            return render_template('blog.html')
+                session.pop('username', None)
+                return redirect('/')
         
+        return render_template('blog.html')
+
+    # If user is not signed in
     elif (request.method == 'POST'):
         sql = db()
         valid = sql.validate(username, password)
@@ -69,9 +77,10 @@ def blog():
         if valid == True:
             session['username'] = username
             return render_template('blog.html')
+        else: 
+            return redirect('/index.html?msg=error')
+    return redirect('/')
     
-    return redirect('/index.html?msg=error')
-
 @app.route('/home.html', methods = ['POST', 'GET'])
 def home():
     username = request.form.get('username')
@@ -101,12 +110,12 @@ def home():
     
     return redirect('/index.html?msg=error')
 
-    @app.route('/backendOperations.html')
-    def tempPage():
-        if (request.method == 'GET'):
-            return render_template('baclendOperations.html')
-        
-        return render_template('backendOperations.html')
+@app.route('/backendOperations.html')
+def tempPage():
+    # if (request.method == 'GET'):
+    #     return render_template('baclendOperations.html')
+    
+    return render_template('backendOperations.html')
 
 if __name__ == "__main__":
     app.run(debug=True)
