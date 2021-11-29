@@ -62,7 +62,7 @@
                 <textarea name="displayblog" id="displayblog" rows="4" cols="20" placeholder="Select a blog to display" readonly>
                     {{comments}}
                 </textarea>
-                <form>
+                <form method="post" action="blog.html" autocomplete="off">
                     <button type="button" name="positive" class="ratingbtn"><img src="/static/resources/icons/outline_favorite_white_24dp.png"></button>
                     <button type="button" name="negative" class="ratingbtn"><img src="/static/resources/icons/outline_thumb_down_white_24dp.png"></button>
                     <br>
@@ -71,7 +71,7 @@
                     <input type="text" placeholder="Enter Comment" name="comment" id="comment">
                     <br>
                     <button type="button" class="cancelblogbtn" onclick="window.location.reload()"> Cancel</button>
-                    <button type="submit" class="submitblogbtn">Submit</button>
+                    <button type="submit" name="create_comment" value="true" class="submitblogbtn">Submit</button>
                     <br>
                     <br>
                 </form>

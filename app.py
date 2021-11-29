@@ -54,6 +54,10 @@ def blog():
     subject = request.form.get('subject')
     description = request.form.get('blog')
     tags = request.form.get('tag')
+    # Creating a new comment
+    comment = request.form.get('create_comment')
+    sentiment = 'positive'
+    description = request.form.get('comment')
 
     # Selecting blog
     select = request.args.get('searchblogs')
@@ -62,17 +66,28 @@ def blog():
     # If user is signed in
     if 'username' in session and username == None and password == None:
         if (request.method == 'POST'):
+            # Signout
+            if signout == 'true':
+                session.pop('username', None)
+                session.pop('blogid', None)
+                return redirect('/')
             # Create a blog
-            if blog == 'true':
+            elif blog == 'true':
                 sql.create_blog(subject, description, tags, session['username'])
                 sql.close()
-            # Signout
-            elif signout == 'true':
-                session.pop('username', None)
-                return redirect('/')
+            # Create a comment
+            elif comment == 'true' and session.get('blogid') is not None:
+                sql.create_comment(sentiment, description, session['blogid'], session['username'])
+                sql.close()
+                return redirect('blog.html?searchblogs=' + session['blogid'])
         elif (request.method == 'GET'):
             if select:
-                return render_template('blog.html', options=sql.get_options(), blog=sql.get_blog(select), comments=sql.get_comments(select))
+                session['blogid'] = select
+                return render_template('blog.html',
+                                        options=sql.get_options(),
+                                        blog=sql.get_blog(select),
+                                        comments=sql.get_comments(select))
+        session.pop('blogid', None)
         return render_template('blog.html', options=sql.get_options())
 
     # If user is not signed in
@@ -81,7 +96,7 @@ def blog():
         sql.close()
         if valid == True:
             session['username'] = username
-            return render_template('blog.html', options=sql.get_options())
+            return redirect('blog.html')
         else: 
             return redirect('/index.html?msg=error')
     return redirect('/')

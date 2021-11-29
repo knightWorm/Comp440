@@ -13,7 +13,7 @@ class db:
         # preparing a cursor object
         self.cursor = self.mydb.cursor()
 
-    def validate(self, username: str, password: str):
+    def validate(self, username:str, password:str):
         query = "SELECT COUNT(*) FROM users WHERE username=%s AND password=%s;"
         values = (username, password)
         self.cursor.execute(query, values)
@@ -23,7 +23,7 @@ class db:
         else:
             return False
     
-    def get_duplicates(self, username: str, email: str):
+    def get_duplicates(self, username:str, email:str):
         query = "SELECT COUNT(*) FROM users WHERE username=%s OR email=%s;"
         values = (username, email)
         self.cursor.execute(query, values)
@@ -33,14 +33,14 @@ class db:
         else:
             return False
 
-    def create_account(self, username: str, password: str, first: str, last: str, email: str):
+    def create_account(self, username:str, password:str, first:str, last:str, email:str):
         query = "INSERT INTO users VALUES(%s, %s, %s, %s, %s);"
         values = (username, password, first, last, email)
         self.cursor.execute(query, values)
         self.cursor.fetchone()
         self.mydb.commit()
     
-    def create_blog(self, subject: str, description: str, tags:str, created_by:str):
+    def create_blog(self, subject:str, description:str, tags:str, created_by:str):
         # Insert blog
         query = "INSERT INTO blogs VALUES(NULL, %s, %s, CURDATE(), %s);"
         values = (subject, description, created_by)
@@ -52,6 +52,12 @@ class db:
             values = (tag,)
             self.cursor.execute(query, values)
         self.mydb.commit()
+
+    def create_comment(self, sentiment:int, description:str, blogid:str, posted_by:str):
+        query = "INSERT INTO comments VALUES(NULL, %s, %s, CURDATE(), %s, %s);"
+        values = (sentiment, description, blogid, posted_by)
+        self.cursor.execute(query, values)
+        self.mydb.commit()
     
     def get_options(self):
         query = "SELECT blogid, subject FROM blogs;"
@@ -62,10 +68,10 @@ class db:
         return options
 
     def get_blog(self, blogid):
-        query = "SELECT subject, created_by, description FROM blogs where blogid=%s;"
+        query = "SELECT subject, created_by, description FROM blogs WHERE blogid=%s;"
         self.cursor.execute(query, (blogid,))
         blg = self.cursor.fetchone()
-        query = "SELECT tag FROM blogstags where blogid=%s;"
+        query = "SELECT tag FROM blogstags WHERE blogid=%s;"
         self.cursor.execute(query, (blogid,))
         tags = ""
         for tag in self.cursor.fetchall():
@@ -74,7 +80,7 @@ class db:
         return post
     
     def get_comments(self, blogid):
-        query = "SELECT posted_by, sentiment, description FROM comments where blogid=%s;"
+        query = "SELECT posted_by, sentiment, description FROM comments WHERE blogid=%s;"
         self.cursor.execute(query, (blogid,))
         post = ""
         for (posted_by, sentiment, description) in self.cursor:
