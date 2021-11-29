@@ -117,3 +117,19 @@ function validateAccount(){
 	}
 	
 }
+
+function likeButton() {
+	let like = document.getElementsByClassName("ratingbtn")[0];
+	let dislike = document.getElementsByClassName("ratingbtn")[1];
+	like.style.backgroundColor = 'blue';
+    dislike.style.backgroundColor = 'grey';
+	document.getElementById("positive").value = 'true'
+}
+
+function dislikeButton() {
+	let like = document.getElementsByClassName("ratingbtn")[0];
+	let dislike = document.getElementsByClassName("ratingbtn")[1];
+	dislike.style.backgroundColor = 'blue';
+    like.style.backgroundColor = 'grey';
+	document.getElementById("positive").value = 'false'
+}

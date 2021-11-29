@@ -56,7 +56,7 @@ def blog():
     tags = request.form.get('tag')
     # Creating a new comment
     comment = request.form.get('create_comment')
-    sentiment = 'positive'
+    like = request.form.get('positive')
     description = request.form.get('comment')
 
     # Selecting blog
@@ -77,6 +77,9 @@ def blog():
                 sql.close()
             # Create a comment
             elif comment == 'true' and session.get('blogid') is not None:
+                sentiment = "positive"
+                if like == 'false':
+                    sentiment = "negative"
                 sql.create_comment(sentiment, description, session['blogid'], session['username'])
                 sql.close()
                 return redirect('blog.html?searchblogs=' + session['blogid'])
