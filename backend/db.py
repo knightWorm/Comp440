@@ -70,9 +70,20 @@ class db:
         tags = ""
         for tag in self.cursor.fetchall():
             tags += tag[0] + ", "
-        post = "{} from {} \n\n\t {} \n\n Tags: {}".format(blg[0], blg[1], blg[2], tags[:-2])
+        post = "{} from {} \n\n{}\n\nTags: {}".format(blg[0], blg[1], blg[2], tags[:-2])
         return post
     
+    def get_comments(self, blogid):
+        query = "SELECT posted_by, sentiment, description FROM comments where blogid=%s;"
+        self.cursor.execute(query, (blogid,))
+        post = ""
+        for (posted_by, sentiment, description) in self.cursor:
+            emoji = "👎"
+            if sentiment == "positive":
+                emoji = "👍"
+            post += "\n{} {}\n{}".format(posted_by, emoji, description)
+        return post
+
     def reset(self):
         f = open('backend/ProjDB.sql', 'r').read()
         self.cursor.execute(f, multi=True)

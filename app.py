@@ -72,7 +72,7 @@ def blog():
                 return redirect('/')
         elif (request.method == 'GET'):
             if select:
-                return render_template('blog.html', options=sql.get_options(), blog=sql.get_blog(select))
+                return render_template('blog.html', options=sql.get_options(), blog=sql.get_blog(select), comments=sql.get_comments(select))
         return render_template('blog.html', options=sql.get_options())
 
     # If user is not signed in
@@ -81,7 +81,7 @@ def blog():
         sql.close()
         if valid == True:
             session['username'] = username
-            return render_template('blog.html')
+            return render_template('blog.html', options=sql.get_options())
         else: 
             return redirect('/index.html?msg=error')
     return redirect('/')
