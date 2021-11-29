@@ -90,6 +90,39 @@ class db:
             post += "\n{} {}\n{}".format(posted_by, emoji, description)
         return post
 
+    def valid_blog_count(self, created_by):
+        query = "SELECT COUNT(*) FROM blogs WHERE created_by=%s AND pdate=CURDATE();"
+        self.cursor.execute(query, (created_by,))
+        count = self.cursor.fetchone()[0]
+        # Users can only make 2 blogs a day
+        if count <= 1:
+            return True
+        else:
+            return False
+    
+    def valid_comment(self, posted_by, blogid):
+        # Only one comment per blog
+        query = "SELECT COUNT(*) FROM comments WHERE posted_by=%s AND blogid=%s AND cdate=CURDATE();"
+        values = (posted_by, blogid)
+        self.cursor.execute(query, values)
+        count = self.cursor.fetchone()[0]
+        if count > 0:
+            return False
+        # Only 3 comments for a day
+        query = "SELECT COUNT(*) FROM comments WHERE posted_by=%s and cdate=CURDATE();"
+        self.cursor.execute(query, (posted_by,))
+        count = self.cursor.fetchone()[0]
+        if count >= 3:
+            return False
+        # Can't comment on your own blog
+        query = "SELECT COUNT(*) FROM blogs WHERE created_by=%s AND blogid=%s;"
+        values = (posted_by, blogid)
+        self.cursor.execute(query, values)
+        count = self.cursor.fetchone()[0]
+        if count >= 1:
+            return False
+        return True
+
     def reset(self):
         f = open('backend/ProjDB.sql', 'r').read()
         self.cursor.execute(f, multi=True)

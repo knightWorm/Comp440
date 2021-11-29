@@ -29,13 +29,13 @@
             <div class="blogForm">
                 <h2>Blogs and Comments</h2>
                 <form method="post" action="blog.html" autocomplete="off">
-                    <p style="color:red">{{error_msg}}</p>
-                    <label>Create Blog : </label> 
+                    <label>Create Blog : </label>
+                    <p style="color:red">{{blog_error}}</p>
                     <br>
                     <br>
-                    <input type="text" placeholder="Enter a subject" name="subject" id="subject" style="margin-top: 0;margin-bottom: 0;text-align: left; ">
-                    <textarea name="blog" id="blog" rows="4" cols="20"  placeholder="Write a blog" required style="margin-top: 0;margin-bottom: 0;text-align: left; "></textarea>
-                    <input type="text" placeholder="Enter tags: blockchain, bitcoin, decentralized" name="tag" id="tag" style="margin-top: -4px;margin-bottom: 0;text-align: left; ">
+                    <input type="text" placeholder="Enter a subject" name="subject" id="subject" style="margin-top: 0;margin-bottom: 0;text-align: left;" required>
+                    <textarea name="blog" id="blog" rows="4" cols="20"  placeholder="Write a blog" style="margin-top: 0;margin-bottom: 0;text-align: left;" required></textarea>
+                    <input type="text" placeholder="Enter tags: blockchain, bitcoin, decentralized" name="tag" id="tag" style="margin-top: -4px;margin-bottom: 0;text-align: left;" required>
                     <br> 
                     <button type="button" class="cancelblogbtn" onclick="window.location.reload()"> Cancel</button>
                     <button type="submit" name="create_blog" value="true" class="submitblogbtn">Submit</button>
@@ -67,6 +67,7 @@
                     <button type="button" class="ratingbtn" onclick="dislikeButton()"><img src="/static/resources/icons/outline_thumb_down_white_24dp.png"></button>
                     <br>
                     <label>Comment : </label>
+                    <p style="color:red">{{comment_error}}</p>
                     <br>
                     <input type="text" placeholder="Enter Comment" name="comment" id="comment">
                     <br>

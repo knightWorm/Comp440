@@ -52,12 +52,12 @@ def blog():
     # Creating a new blog
     blog = request.form.get('create_blog')
     subject = request.form.get('subject')
-    description = request.form.get('blog')
+    bDescription = request.form.get('blog')
     tags = request.form.get('tag')
     # Creating a new comment
     comment = request.form.get('create_comment')
     like = request.form.get('positive')
-    description = request.form.get('comment')
+    cDescription = request.form.get('comment')
 
     # Selecting blog
     select = request.args.get('searchblogs')
@@ -73,14 +73,23 @@ def blog():
                 return redirect('/')
             # Create a blog
             elif blog == 'true':
-                sql.create_blog(subject, description, tags, session['username'])
-                sql.close()
+                if sql.valid_blog_count(session['username']) == False:
+                    return render_template('blog.html',
+                                        options=sql.get_options(),
+                                        blog_error="You can only make 2 blogs a day")
+                sql.create_blog(subject, bDescription, tags, session['username'])
             # Create a comment
             elif comment == 'true' and session.get('blogid') is not None:
+                if sql.valid_comment(session['username'], session['blogid']) == False:
+                    return render_template('blog.html',
+                                        options=sql.get_options(),
+                                        comment_error=  "You can only make 3 comments per day "+
+                                                        "and only once per blog. You can't "+ 
+                                                        "comment on your own blog.")
                 sentiment = "positive"
                 if like == 'false':
                     sentiment = "negative"
-                sql.create_comment(sentiment, description, session['blogid'], session['username'])
+                sql.create_comment(sentiment, cDescription, session['blogid'], session['username'])
                 sql.close()
                 return redirect('blog.html?searchblogs=' + session['blogid'])
         elif (request.method == 'GET'):
