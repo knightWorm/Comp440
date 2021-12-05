@@ -121,3 +121,14 @@ select{
         text-decoration: none;
         color: rgb(141, 93, 3);
 }
+.datetext {   
+        width: 200px;   
+        margin: 8px 0;  
+        padding: 12px 20px;   
+        display: inline-block;   
+        border: 2px solid green;   
+        box-sizing: border-box;   
+}   
+.datelabel {
+        margin-right: 200px;
+}

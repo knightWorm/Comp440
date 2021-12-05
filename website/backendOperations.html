@@ -4,29 +4,95 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Project 2 | Blogs</title>
+    <title>Project 3 | Backend Operations</title>
     <link href="../static/css/styles.css" type="text/css" rel="stylesheet" >
-    <script src ="../static/sc.js"></script>
+    <script type="text/javascript" src ="{{ url_for('static', filename='sc.js') }}"></script>
 </head>
 <body>
     <header>
         <h1>Comp 440: Project 1</h1>
-        <h2>Welcome</h2>
-        <section id ="navbar">
-            <div class ="navigation">
-                <nav>
-                    <a href="home.html">Home</a>
-                    <a href="blog.html">Blogs</a>
-                </nav>
-
-            </div>
-        </section>
+        <!-- <hr size="8" width="80%" color="black"> -->
     </header>
     <main>
-        <section>
+        <!-- <script type="text/javascript">alert("welcome to my page")</script> -->
+        <section id="blogComment">
+            <div class="blogForm">
+                <h2>Backend Operations</h2>
+                <br><br>
+                <form method="get" action="backendOperations.html">
+                    <label>Blogs with Positive Comments : </label>
+                    <br>
+                    <!-- <input type="text" class="searchbar" placeholder="Search blogs" name="search" id="search" style="width: 200px;"> -->
+                    <button type="submit" class="submitblogbtn" style="height: 35px;">Select</button>
+                    <select name="searchblogs" id="searchblogs" style="height: 35px;">
+                        {{options|safe}}
+                    </select>
+                </form>
+                <textarea name="displayblog" id="displayblog" rows="6" cols="20" placeholder="Select a blog to display" readonly>
+                    {{blogs}}
+                </textarea>
+                <br><br>
+                <br><br>
+                <form method="post" action="backendOperations.html">
+                    <label>Most Blogs Posted : </label>
+						<br>
+                        <label>Select a date : </label> 
+						<input type="date" class="datetext" placeholder="Enter a date: mm/dd/yyyy" name="postdate" id="postdate"> 
+                        <button type="button" class="cancelblogbtn" onclick="window.location.reload()"> Cancel</button>
+                        <button type="submit" name="display_users" value="true" class="submitblogbtn">Submit</button>
+						<br>
+                </form>
+                <textarea name="displayUsers" id="displayUsers" rows="6" cols="20" placeholder="Select a blog to display" readonly>
+                    {{blog count}}
+                    {{usernames}}
+                </textarea>
+                <br><br>
+                <br><br>
+                <form method="get" action="backendOperations.html">
+                    <label>Users with Followers : </label> 
+                    <br>
+                    <!-- <input type="text" class="searchbar" placeholder="Search blogs" name="search" id="search" style="width: 200px;"> -->
+                    <button type="submit" class="submitblogbtn" style="height: 35px;">Select</button>
+                    <select name="searchFollowerX" id="searchFollowerX" style="height: 35px;">
+                        {{options|safe}}
+                    </select>
+                    <br>
+                    <button type="submit" class="submitblogbtn" style="height: 35px;">Select</button>
+                    <select name="searchFollowerY" id="searchFollowerY" style="height: 35px;">
+                        {{options|safe}}
+                    </select>
+                </form>
+                <textarea name="displayFollowUser" id="displayFollowUser" rows="6" cols="20" placeholder="Select a blog to display" readonly>
+                    {{usernames}}
+                </textarea>
+                <br><br>
+                <br><br>
+                <label>Users with No Blogs : </label>
+                <br>
+                <textarea name="displayUserNoBlog" id="displayUserNoBlog" rows="4" cols="20" placeholder="Select a blog to display" readonly>
+                    {{usernames}}
+                </textarea>
+                <br><br>
+                <br><br>
+                <label>Users Posting Only Negative Comments : </label>
+                <br>
+                <textarea name="displayUserNegComment" id="displayUserNegComment" rows="4" cols="20" placeholder="Select a blog to display" readonly>
+                    {{usernames}}
+                </textarea>
+                <br><br>
+                <br><br>
+                <label>Users Whose Blogs Have No Negative Comments : </label>
+                <br>
+                <textarea name="displayUserBlogNegComment" id="displayUserBlogNegComment" rows="4" cols="20" placeholder="Select a blog to display" readonly>
+                    {{usernames}}
+                </textarea>
+                <br><br>
+                <a href="blog.html"> Back Blogs </a>
+            </div>
         </section>
     </main>
     <footer>
+        <!-- <hr size="8" width="80%" color="black"> -->
         <p>&copy; Copyrights 2021 by Comp440Team#12</p>
     </footer>
 </body>
