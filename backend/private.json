@@ -1,7 +1,7 @@
 {
     "user": "root",
-    "password": "NLacv89!@rtg",
+    "password": "root",
     "database": "website",
-    "port":"3006",
+    "port":"8889",
     "host": "localhost"
 }

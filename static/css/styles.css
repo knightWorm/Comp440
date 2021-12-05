@@ -3,6 +3,10 @@
 	font-family: Calibri, Helvetica, sans-serif; 
 	text-align: center;
 }
+a {
+     text-decoration: none;
+     color: rgb(141, 93, 3);   
+}
 html {
 	height: auto;
 	margin:0;
