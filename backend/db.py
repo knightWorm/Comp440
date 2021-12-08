@@ -1,3 +1,4 @@
+from datetime import  date
 import json, mysql.connector
 
 class db:
@@ -129,3 +130,21 @@ class db:
     
     def close(self):
         self.mydb.close()
+
+    def get_most_blogs(self, pdate: date):
+        #find the max count of blogs for a day and who posted them
+        query = "SELECT created_by, MAX(blogCounts) FROM (SELECT created_by, COUNT(blogid) AS blogCounts FROM blogs WHERE pdate=%s GROUPBY created_by) GROUPBY created_by;"
+        self.cursor.execute(query, (pdate,))
+        followedby = self.cursor.fetchone()
+        post = "{} from {} \n\n{}\n\nTags: {}".format(followedby[0], followedby[1], followedby[2])
+        return post
+
+    def valid_date_blog_count(self, pdate: date):
+        #No blogs exist for date
+        query = "SELECT COUNT(*) FROM blogs WHERE pdate=%s"
+        self.cursor.execut(query, (pdate,))
+        count = self.cursor.fetchone()[0]
+        if count == 0:
+            return False
+        return True
+

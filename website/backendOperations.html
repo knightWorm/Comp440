@@ -24,7 +24,7 @@
                     <br>
                     <!-- <input type="text" class="searchbar" placeholder="Search blogs" name="search" id="search" style="width: 200px;"> -->
                     <button type="submit" class="submitblogbtn" style="height: 35px;">Select</button>
-                    <select name="searchblogs" id="searchblogs" style="height: 35px;">
+                    <select name="searchusers" id="searchusers" style="height: 35px;">
                         {{options|safe}}
                     </select>
                 </form>
@@ -37,13 +37,12 @@
                     <label>Most Blogs Posted : </label>
 						<br>
                         <label>Select a date : </label> 
-						<input type="date" class="datetext" placeholder="Enter a date: mm/dd/yyyy" name="postdate" id="postdate"> 
+						<input type="date" class="datetext" name="postdate" id="postdate"> 
                         <button type="button" class="cancelblogbtn" onclick="window.location.reload()"> Cancel</button>
                         <button type="submit" name="display_users" value="true" class="submitblogbtn">Submit</button>
 						<br>
                 </form>
                 <textarea name="displayUsers" id="displayUsers" rows="6" cols="20" placeholder="Select a blog to display" readonly>
-                    {{blog count}}
                     {{usernames}}
                 </textarea>
                 <br><br>

@@ -1,5 +1,7 @@
 from flask import Flask, render_template, redirect, request, session
 import sys, json
+
+from flask.sessions import SecureCookieSession
 sys.path.insert(0, "backend/")
 from db import db
 config = json.load(open('backend/private.json'))
@@ -142,12 +144,44 @@ def home():
     
     return redirect('/index.html?msg=error')
 
-@app.route('/backendOperations.html')
-def tempPage():
-    # if (request.method == 'GET'):
-    #     return render_template('baclendOperations.html')
+@app.route('/backendOperations.html', methods = ['POST', 'GET'])
+def operations():
+    username = request.form.get('username')
+    password = request.form.get('password')
+
+    # Selecting a user with blogs having only positive comments
+    select = request.args.get('searchusers')
     
-    return render_template('backendOperations.html')
+    # Selecting a date for showing most blogs posted
+    mostblogs = request.form.get('display_users')
+    mostblogsdate = request.args.get('postdate')
+
+    # Selecting Followers of Users
+    select = request.args.get('searchFollowerX')
+    select = request.args.get('searchFollowerY')
+
+    sql = db()
+    # If user is signed in
+    if 'username' in session and username == None and password == None:
+        if (request.method == 'GET'):
+            # Show most blogs posted on entered date
+            if mostblogs == 'true':
+                if sql.valid_date_blog_count(mostblogsdate) == False:
+                    return render_template('backendOperations.html',
+                                        options=sql.get_options(),
+                                        blog_error="There are no blogs for this date")
+                sql.get_most_blogs(mostblogsdate)
+                #sql.close()
+                #return redirect('blog.html?searchblogs=' + session['blogid'])
+        # elif (request.method == 'GET'):
+        #     if select:
+        #         session['blogid'] = select
+        #         return render_template('backendOperations.html',
+        #                                 options=sql.get_options(),
+        #                                 blog=sql.get_blog(select),
+        #                                 comments=sql.get_comments(select))
+        # session.pop('blogid', None)
+    return render_template('backendOperations.html', options=sql.get_options())
 
 if __name__ == "__main__":
     app.run(debug=True)
