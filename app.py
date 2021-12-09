@@ -7,9 +7,9 @@ from db import db
 config = json.load(open('backend/private.json'))
 app = Flask(__name__, template_folder='website')
 app.config["SECRET_KEY"] = config['password']
-# sql = db()
-# sql.reset()
-# sql.close()
+sql = db()
+sql.reset()
+sql.close()
 
 @app.route('/')
 @app.route('/index.html', methods = ['POST', 'GET'])
@@ -117,32 +117,20 @@ def blog():
     
 @app.route('/home.html', methods = ['POST', 'GET'])
 def home():
-    username = request.form.get('username')
-    password = request.form.get('password')
     reset = request.form.get('reset_DB')
-    signout = request.form.get('sign_out')
-    if 'username' in session and username == None and password == None:
+    if 'username' in session:
         if (request.method == 'POST'):
             if reset == 'true':
                 sql = db()
                 sql.reset()
                 sql.close()
-                return render_template('home.html')
-            elif signout == 'true':
                 session.pop('username', None)
-                return redirect('/index.html')
-        else:
-            return render_template('home.html')
-        
-    elif (request.method == 'POST'):
-        sql = db()
-        valid = sql.validate(username, password)
-        sql.close()
-        if valid == True:
-            session['username'] = username
-            return render_template('blog.html')
+                session.pop('blogid', None)
+                return redirect('/')
+
+        return render_template('home.html')
     
-    return redirect('/index.html?msg=error')
+    return redirect('/')
 
 @app.route('/backendOperations.html', methods = ['POST', 'GET'])
 def operations():
