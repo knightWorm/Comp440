@@ -67,6 +67,14 @@ class db:
         for (blogid, subject) in self.cursor:
             options += "<option value='{}'>{}</option>".format(blogid, subject)
         return options
+    
+    def get_active_user_options(self):
+        query = "SELECT created_by FROM blogs GROUP BY created_by;"
+        self.cursor.execute(query)
+        options = ""
+        for (created_by,) in self.cursor:
+            options += "<option value='{}'>{}</option>".format(created_by, created_by)
+        return options
 
     def get_blog(self, blogid):
         query = "SELECT subject, created_by, description FROM blogs WHERE blogid=%s;"
@@ -90,6 +98,54 @@ class db:
                 emoji = "👍"
             post += "\n{} {}\n{}".format(posted_by, emoji, description)
         return post
+
+    def get_positive_blogs(self, username):
+        query = "SELECT blogid FROM blogs WHERE created_by=%s;"
+        self.cursor.execute(query, (username,))
+        blogids = [blogid[0] for blogid in self.cursor.fetchall()]
+        positiveBlogs = []
+        for blogid in blogids:
+            query = "SELECT sentiment FROM comments WHERE blogid=%s;"
+            self.cursor.execute(query, (blogid,))
+            sentimentList = [sentiment[0] for sentiment in self.cursor.fetchall()]
+            positive = True
+            for sent in sentimentList:
+                if sent == "negative":
+                    positive = False
+                    break
+            if positive and len(sentimentList) > 0:
+                positiveBlogs.append(blogid)
+        if len(positiveBlogs) == 0:
+            return "There are no positive comments"
+        post = ""
+        for blogid in positiveBlogs:
+            post += "\n" + self.get_blog(blogid)
+        return post
+    
+    def get_most_blogs(self, pdate: date):
+        # Find the users with the max count of blogs for a day
+        query = "SELECT MAX(created_by) FROM blogs WHERE pdate=%s"
+        self.cursor.execute(query, (pdate,))
+        users = [user[0] for user in self.cursor.fetchall()]
+        if users == [None]:
+            return "None"
+        usersString = ""
+        for user in users:
+            usersString += user + ", "
+        return usersString[:-2]
+    
+    def get_leadernames(self, userX, userY):
+        # List the users who are followed by X and Y
+        query = "SELECT leadername FROM follows WHERE followername=%s AND leadername IN (SELECT leadername FROM follows WHERE followername=%s);"
+        values = (userX, userY)
+        self.cursor.execute(query, values)
+        users = [user[0] for user in self.cursor.fetchall()]
+        if len(users) == 0:
+            return "None"
+        usersString = ""
+        for user in users:
+            usersString += user + ", "
+        return usersString[:-2]
 
     def valid_blog_count(self, created_by):
         query = "SELECT COUNT(*) FROM blogs WHERE created_by=%s AND pdate=CURDATE();"
@@ -151,9 +207,9 @@ class db:
         post = "{} from {} \n\n{}\n\nTags: {}".format(blg[0], blg[1], blg[2], tags[:-2])
         return post
 
-    def get_most_blogs(self, pdate):
+    def get_most_blogs_(self, pdate):
         #find the max count of blogs for a day and who posted them
-        query = "SELECT created_by, MAX(blogCounts) AS max_blogs FROM (SELECT created_by, COUNT(blogid) AS blogCounts FROM blogs WHERE pdate=%s GROUPBY created_by);"
+        query = "SELECT created_by, MAX(blogCounts) AS max_blogs FROM (SELECT created_by, COUNT(blogid) AS blogCounts FROM blogs WHERE pdate=%s GROUP BY created_by;"
         self.cursor.execute(query, (pdate,))
         post = ""
         for (created_by, max_blogs) in self.cursor:
@@ -174,26 +230,22 @@ class db:
         query = "SELECT username FROM users LEFT JOIN blogs ON username = created_by WHERE blogid IS NULL;"
         self.cursor.execute(query)
         names = ""
-        for (username) in self.cursor:
-            names += "{}".format(username)
-        return names
+        for (username,) in self.cursor:
+            names += username + ", "
+        return names[:-2]
 
     def neg_comments(self):
         query = "SELECT posted_by FROM comments WHERE posted_by NOT IN (SELECT posted_by FROM comments WHERE sentiment = 'positive');"
         self.cursor.execute(query)
         names = ""
-        for (posted_by) in self.cursor:
-            names += "{}".format(posted_by)
-        return names
+        for (posted_by,) in self.cursor:
+            names += posted_by + ", "
+        return names[:-2]
 
     def no_neg_comments(self):
-        query = "SELECT created_by FROM blogs, (SELECT * FROM comments WHERE blogid NOT IN (SELECT blogid FROM comments WHERE sentiment = 'negative') AS noNegative WHERE blogs.blogid = noNegative.blogid;"
+        query = "SELECT created_by FROM blogs, (SELECT * FROM comments WHERE blogid NOT IN (SELECT blogid FROM comments WHERE sentiment = 'negative')) AS noNegative WHERE blogs.blogid = noNegative.blogid GROUP BY created_by;"
         self.cursor.execute(query)
         names = ""
-        for (created_by) in self.cursor:
-            names += "{}".format(created_by)
-        return names
-
-
-
-
+        for (created_by,) in self.cursor:
+            names += created_by + ", "
+        return names[:-2]

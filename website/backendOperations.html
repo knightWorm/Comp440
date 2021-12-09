@@ -25,7 +25,7 @@
                     <!-- <input type="text" class="searchbar" placeholder="Search blogs" name="search" id="search" style="width: 200px;"> -->
                     <button type="submit" class="submitblogbtn" style="height: 35px;">Select</button>
                     <select name="searchusers" id="searchusers" style="height: 35px;">
-                        {{options|safe}}
+                        {{user_options|safe}}
                     </select>
                 </form>
                 <textarea name="displayblog" id="displayblog" rows="6" cols="20" placeholder="Select a blog to display" readonly>
@@ -33,15 +33,14 @@
                 </textarea>
                 <br><br>
                 <br><br>
-                <form method="get" action="backendOperations.html">
+                <form method="post" action="backendOperations.html">
                     <label>Most Blogs Posted : </label>
-                    <p style="color:red">{{mostblog_error}}</p>
-						<br>
-                        <label>Select a date : </label> 
-						<input type="date" class="datetext" name="postdate" id="postdate" value="2020-03-15" min="2020-03-15"> 
-                        <button type="button" class="cancelblogbtn" onclick="window.location.reload()"> Cancel</button>
-                        <button type="submit" name="display_users" value="true" class="submitblogbtn">Submit</button>
-						<br>
+                    <br>
+                    <label>Select a date : </label> 
+                    <input type="date" class="datetext" name="postdate" id="postdate" value="2020-03-15" min="2020-03-15" required> 
+                    <button type="button" class="cancelblogbtn" onclick="window.location.reload()"> Cancel</button>
+                    <button type="submit" name="display_users" value="true" class="submitblogbtn">Submit</button>
+                    <br>
                 </form>
                 <textarea name="displayUsers" id="displayUsers" rows="6" cols="20" placeholder="Select a blog to display" readonly>
                     {{usernames}}
@@ -54,16 +53,15 @@
                     <!-- <input type="text" class="searchbar" placeholder="Search blogs" name="search" id="search" style="width: 200px;"> -->
                     <button type="submit" class="submitblogbtn" style="height: 35px;">Select</button>
                     <select name="searchFollowerX" id="searchFollowerX" style="height: 35px;">
-                        {{options|safe}}
+                        {{user_options|safe}}
                     </select>
                     <br>
-                    <button type="submit" class="submitblogbtn" style="height: 35px;">Select</button>
                     <select name="searchFollowerY" id="searchFollowerY" style="height: 35px;">
-                        {{options|safe}}
+                        {{user_options|safe}}
                     </select>
                 </form>
                 <textarea name="displayFollowUser" id="displayFollowUser" rows="6" cols="20" placeholder="Select a blog to display" readonly>
-                    {{usernames}}
+                    {{leadernames}}
                 </textarea>
                 <br><br>
                 <br><br>

@@ -7,9 +7,9 @@ from db import db
 config = json.load(open('backend/private.json'))
 app = Flask(__name__, template_folder='website')
 app.config["SECRET_KEY"] = config['password']
-sql = db()
-sql.reset()
-sql.close()
+# sql = db()
+# sql.reset()
+# sql.close()
 
 @app.route('/')
 @app.route('/index.html', methods = ['POST', 'GET'])
@@ -146,49 +146,59 @@ def home():
 
 @app.route('/backendOperations.html', methods = ['POST', 'GET'])
 def operations():
-    username = request.form.get('username')
-    password = request.form.get('password')
-
     # Selecting a user with blogs having only positive comments
-    select = request.args.get('searchusers')
+    blog_user = request.args.get('searchusers')
     
     # Selecting a date for showing most blogs posted
-    mostblogs = request.form.get('display_users')
-    mostblogsdate = request.args.get('postdate')
+    mostblogsdate = request.form.get('postdate')
 
     # Selecting Followers of Users
-    select = request.args.get('searchFollowerX')
-    select = request.args.get('searchFollowerY')
-
-    #Show users with no blogs
-    noblogs = request.form.get('')
+    followerX = request.args.get('searchFollowerX')
+    followerY = request.args.get('searchFollowerY')
 
 
-    sql = db()
     # If user is signed in
-    if 'username' in session and username == None and password == None:
+    if 'username' in session:
+        sql = db()
         if (request.method == 'GET'):
-            # Show the user with blogs having only positive comments
-            if select:
-                session['userid'] = select
+            # Show blogs for a user that have positive comments
+            if blog_user:
                 return render_template('backendOperations.html',
-                                        backendoptions=sql.get_options(),
-                                        blog=sql.valid_positive_blogs(select))
-            # Show most blogs posted on entered date
-            #print("request method is get")
-            elif mostblogs == 'true':
-                print("submit was pressed")
-                if sql.valid_date_blog_count(mostblogsdate) == False:
-                    return render_template('backendOperations.html',
-                                        mostblog_error="There are no blogs for this date")
-                return render_template('backendOperations.html',
-                                    displayUsers = sql.get_most_blogs(mostblogsdate))
-        return render_template('backendOperations.html', 
+                                user_options=sql.get_active_user_options(),
                                 options=sql.get_options(),
-                                noBlogUsernames=sql.no_blogs()
-                                # displayUserNegComment=sql.neg_comments(),
-                                # displayUserBlogNegComment=sql.no_neg_comments()
-                                )
+                                noBlogUsernames=sql.no_blogs(),
+                                negcommentusernames=sql.neg_comments(),
+                                nonegusernames=sql.no_neg_comments(),
+                                blogs=sql.get_positive_blogs(blog_user))
+            
+            # Show users who are followed by both X and Y
+            elif followerX and followerY:
+                return render_template('backendOperations.html',
+                                    user_options=sql.get_active_user_options(),
+                                    options=sql.get_options(),
+                                    noBlogUsernames=sql.no_blogs(),
+                                    negcommentusernames=sql.neg_comments(),
+                                    nonegusernames=sql.no_neg_comments(),
+                                    leadernames=sql.get_leadernames(followerX, followerY))
 
+        elif (request.method == 'POST'):
+            # Show most blogs posted on entered date
+            if mostblogsdate:
+                return render_template('backendOperations.html',
+                                    user_options=sql.get_active_user_options(),
+                                    options=sql.get_options(),
+                                    noBlogUsernames=sql.no_blogs(),
+                                    negcommentusernames=sql.neg_comments(),
+                                    nonegusernames=sql.no_neg_comments(),
+                                    usernames=sql.get_most_blogs(mostblogsdate))
+
+        return render_template('backendOperations.html',
+                                user_options=sql.get_active_user_options(),
+                                options=sql.get_options(),
+                                noBlogUsernames=sql.no_blogs(),
+                                negcommentusernames=sql.neg_comments(),
+                                nonegusernames=sql.no_neg_comments())
+    return redirect('/')
+    
 if __name__ == "__main__":
     app.run(debug=True)
