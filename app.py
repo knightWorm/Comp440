@@ -7,9 +7,9 @@ from db import db
 config = json.load(open('backend/private.json'))
 app = Flask(__name__, template_folder='website')
 app.config["SECRET_KEY"] = config['password']
-sql = db()
-sql.reset()
-sql.close()
+# sql = db()
+# sql.reset()
+# sql.close()
 
 @app.route('/')
 @app.route('/index.html', methods = ['POST', 'GET'])

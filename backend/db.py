@@ -124,7 +124,7 @@ class db:
     
     def get_most_blogs(self, pdate: date):
         # Find the users with the max count of blogs for a day
-        query = "SELECT MAX(created_by) FROM blogs WHERE pdate=%s"
+        query = "SELECT created_by, MAX(blogCounts) AS max_blogs FROM (SELECT created_by, COUNT(blogid) AS blogCounts FROM blogs WHERE pdate=%s GROUP BY created_by) AS most_blogs GROUP BY created_by;"
         self.cursor.execute(query, (pdate,))
         users = [user[0] for user in self.cursor.fetchall()]
         if users == [None]:
@@ -209,11 +209,11 @@ class db:
 
     def get_most_blogs_(self, pdate):
         #find the max count of blogs for a day and who posted them
-        query = "SELECT created_by, MAX(blogCounts) AS max_blogs FROM (SELECT created_by, COUNT(blogid) AS blogCounts FROM blogs WHERE pdate=%s GROUP BY created_by;"
+        query = "SELECT created_by, MAX(blogCounts) AS max_blogs FROM (SELECT created_by, COUNT(blogid) AS blogCounts FROM blogs WHERE pdate=%s GROUP BY created_by) AS most_blogs GROUP BY created_by;"
         self.cursor.execute(query, (pdate,))
         post = ""
         for (created_by, max_blogs) in self.cursor:
-            post = "\n{}\n{}".format(created_by, max_blogs)
+            post = "\n{} {}".format(created_by, max_blogs)
         return post
 
     def valid_date_blog_count(self, pdate):
