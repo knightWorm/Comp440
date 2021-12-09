@@ -33,11 +33,12 @@
                 </textarea>
                 <br><br>
                 <br><br>
-                <form method="post" action="backendOperations.html">
+                <form method="get" action="backendOperations.html">
                     <label>Most Blogs Posted : </label>
+                    <p style="color:red">{{mostblog_error}}</p>
 						<br>
                         <label>Select a date : </label> 
-						<input type="date" class="datetext" name="postdate" id="postdate"> 
+						<input type="date" class="datetext" name="postdate" id="postdate" value="2020-03-15" min="2020-03-15"> 
                         <button type="button" class="cancelblogbtn" onclick="window.location.reload()"> Cancel</button>
                         <button type="submit" name="display_users" value="true" class="submitblogbtn">Submit</button>
 						<br>

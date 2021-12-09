@@ -165,12 +165,14 @@ def operations():
     if 'username' in session and username == None and password == None:
         if (request.method == 'GET'):
             # Show most blogs posted on entered date
+            #print("request method is get")
             if mostblogs == 'true':
+                print("submit was pressed")
                 if sql.valid_date_blog_count(mostblogsdate) == False:
                     return render_template('backendOperations.html',
-                                        options=sql.get_options(),
-                                        blog_error="There are no blogs for this date")
-                sql.get_most_blogs(mostblogsdate)
+                                        mostblog_error="There are no blogs for this date")
+                return render_template('backendOperations.html',
+                                    displayUsers = sql.get_most_blogs(mostblogsdate))
                 #sql.close()
                 #return redirect('blog.html?searchblogs=' + session['blogid'])
         # elif (request.method == 'GET'):
@@ -181,7 +183,7 @@ def operations():
         #                                 blog=sql.get_blog(select),
         #                                 comments=sql.get_comments(select))
         # session.pop('blogid', None)
-    return render_template('backendOperations.html', options=sql.get_options())
+        return render_template('backendOperations.html', options=sql.get_options())
 
 if __name__ == "__main__":
     app.run(debug=True)

@@ -131,20 +131,22 @@ class db:
     def close(self):
         self.mydb.close()
 
-    def get_most_blogs(self, pdate: date):
+    def get_most_blogs(self, pdate):
         #find the max count of blogs for a day and who posted them
-        query = "SELECT created_by, MAX(blogCounts) FROM (SELECT created_by, COUNT(blogid) AS blogCounts FROM blogs WHERE pdate=%s GROUPBY created_by) GROUPBY created_by;"
+        query = "SELECT created_by, MAX(blogCounts) AS max_blogs FROM (SELECT created_by, COUNT(blogid) AS blogCounts FROM blogs WHERE pdate=%s GROUPBY created_by);"
         self.cursor.execute(query, (pdate,))
-        followedby = self.cursor.fetchone()
-        post = "{} from {} \n\n{}\n\nTags: {}".format(followedby[0], followedby[1], followedby[2])
+        post = ""
+        for (created_by, max_blogs) in self.cursor:
+            post = "\n{}\n{}".format(created_by, max_blogs)
         return post
 
-    def valid_date_blog_count(self, pdate: date):
+    def valid_date_blog_count(self, pdate):
         #No blogs exist for date
         query = "SELECT COUNT(*) FROM blogs WHERE pdate=%s"
-        self.cursor.execut(query, (pdate,))
+        values = (pdate)
+        self.cursor.execute(query, values)
         count = self.cursor.fetchone()[0]
-        if count == 0:
+        if count < 1:
             return False
         return True
 
