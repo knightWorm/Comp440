@@ -44,7 +44,7 @@ nav a {
         width: 45%;
         margin: 50px auto;
 }
-input[type=text], input[type=password] {   
+input[type=text], input[type=password], input[type=email] {   
         width: 50%;   
         margin: 8px 0;  
         padding: 12px 20px;   
