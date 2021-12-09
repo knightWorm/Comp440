@@ -131,6 +131,26 @@ class db:
     def close(self):
         self.mydb.close()
 
+    def get_user_options(self):
+        query = "SELECT userid, username FROM users, blogs, comments WHERE users.username = blogs.created_by AND blogs.blogsid = comments.blogid AND comments.sentiment = positive;"
+        self.cursor.execute(query)
+        options = ""
+        for (userid, username) in self.cursor:
+            options += "<option value='{}'>{}</option>".format(userid, username)
+        return options
+
+    def valid_positive_blogs(self, blogid):
+        query = "SELECT subject, created_by, description FROM blogs, comments WHERE blogid=%s AND sentiment=%s;"
+        self.cursor.execute(query, (blogid,))
+        blg = self.cursor.fetchone()
+        query = "SELECT tag FROM blogstags WHERE blogid=%s;"
+        self.cursor.execute(query, (blogid,))
+        tags = ""
+        for tag in self.cursor.fetchall():
+            tags += tag[0] + ", "
+        post = "{} from {} \n\n{}\n\nTags: {}".format(blg[0], blg[1], blg[2], tags[:-2])
+        return post
+
     def get_most_blogs(self, pdate):
         #find the max count of blogs for a day and who posted them
         query = "SELECT created_by, MAX(blogCounts) AS max_blogs FROM (SELECT created_by, COUNT(blogid) AS blogCounts FROM blogs WHERE pdate=%s GROUPBY created_by);"
@@ -149,4 +169,31 @@ class db:
         if count < 1:
             return False
         return True
+
+    def no_blogs(self):
+        query = "SELECT username FROM users LEFT JOIN blogs ON username = created_by WHERE blogid IS NULL;"
+        self.cursor.execute(query)
+        names = ""
+        for (username) in self.cursor:
+            names += "{}".format(username)
+        return names
+
+    def neg_comments(self):
+        query = "SELECT posted_by FROM comments WHERE posted_by NOT IN (SELECT posted_by FROM comments WHERE sentiment = 'positive');"
+        self.cursor.execute(query)
+        names = ""
+        for (posted_by) in self.cursor:
+            names += "{}".format(posted_by)
+        return names
+
+    def no_neg_comments(self):
+        query = "SELECT created_by FROM blogs, (SELECT * FROM comments WHERE blogid NOT IN (SELECT blogid FROM comments WHERE sentiment = 'negative') AS noNegative WHERE blogs.blogid = noNegative.blogid;"
+        self.cursor.execute(query)
+        names = ""
+        for (created_by) in self.cursor:
+            names += "{}".format(created_by)
+        return names
+
+
+
 

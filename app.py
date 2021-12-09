@@ -160,30 +160,35 @@ def operations():
     select = request.args.get('searchFollowerX')
     select = request.args.get('searchFollowerY')
 
+    #Show users with no blogs
+    noblogs = request.form.get('')
+
+
     sql = db()
     # If user is signed in
     if 'username' in session and username == None and password == None:
         if (request.method == 'GET'):
+            # Show the user with blogs having only positive comments
+            if select:
+                session['userid'] = select
+                return render_template('backendOperations.html',
+                                        backendoptions=sql.get_options(),
+                                        blog=sql.valid_positive_blogs(select))
             # Show most blogs posted on entered date
             #print("request method is get")
-            if mostblogs == 'true':
+            elif mostblogs == 'true':
                 print("submit was pressed")
                 if sql.valid_date_blog_count(mostblogsdate) == False:
                     return render_template('backendOperations.html',
                                         mostblog_error="There are no blogs for this date")
                 return render_template('backendOperations.html',
                                     displayUsers = sql.get_most_blogs(mostblogsdate))
-                #sql.close()
-                #return redirect('blog.html?searchblogs=' + session['blogid'])
-        # elif (request.method == 'GET'):
-        #     if select:
-        #         session['blogid'] = select
-        #         return render_template('backendOperations.html',
-        #                                 options=sql.get_options(),
-        #                                 blog=sql.get_blog(select),
-        #                                 comments=sql.get_comments(select))
-        # session.pop('blogid', None)
-        return render_template('backendOperations.html', options=sql.get_options())
+        return render_template('backendOperations.html', 
+                                options=sql.get_options(),
+                                noBlogUsernames=sql.no_blogs()
+                                # displayUserNegComment=sql.neg_comments(),
+                                # displayUserBlogNegComment=sql.no_neg_comments()
+                                )
 
 if __name__ == "__main__":
     app.run(debug=True)
