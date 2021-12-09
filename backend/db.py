@@ -243,7 +243,7 @@ class db:
         return names[:-2]
 
     def no_neg_comments(self):
-        query = "SELECT created_by FROM blogs WHERE created_by NOT IN (SELECT created_by FROM blogs WHERE blogid IN (SELECT blogid FROM comments WHERE sentiment='negative'));"
+        query = "SELECT DISTINCT created_by FROM blogs WHERE created_by NOT IN (SELECT created_by FROM blogs WHERE blogid IN (SELECT blogid FROM comments WHERE sentiment='negative'));"
         self.cursor.execute(query)
         names = ""
         for (created_by,) in self.cursor:
