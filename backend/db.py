@@ -119,7 +119,7 @@ class db:
             return "There are no positive comments"
         post = ""
         for blogid in positiveBlogs:
-            post += "\n" + self.get_blog(blogid)
+            post += "\n\n" + self.get_blog(blogid)
         return post
     
     def get_most_blogs(self, pdate: date):
